@@ -22,7 +22,7 @@ of the CRM backend's Twilio.
 `.env`:
 
 ```
-REACT_APP_BILLER_URL=https://nextgenhnnbiller-production-bdf1.up.railway.app
+REACT_APP_BILLER_URL=https://nextgenhnnbiller-production.up.railway.app
 ```
 
 All backend resources stay on Railway (the biller). The biller endpoints used are public and
