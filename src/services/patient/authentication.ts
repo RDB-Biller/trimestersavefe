@@ -1,6 +1,7 @@
 import axios from "axios";
 import URL from "../../helpers/URL"
 import { startVerification, checkVerification } from "../birthprep"
+import { setToken } from "../../helpers/utilities"
 
 class Authentication {
   authenticated: boolean;
@@ -48,9 +49,11 @@ class Authentication {
   VerifyCode(data: { phone: string; code: string }) {
     return checkVerification(data.phone, data.code).then(async (res) => {
       const receipt = res.data;
-      try { localStorage.setItem("phone_verification", JSON.stringify(receipt)); } catch (e) { /* private mode */ }
-      await axios.patch(URL.verifyPhone, { ...data, ...receipt }, { timeout: 100000 }).catch(() => null);
-      return res;
+      // The Biller holds the account: present its signed receipt and it returns a signed-in session.
+      const done = await axios.patch(URL.verifyPhone, { ...data, ...receipt }, { timeout: 100000 });
+      const token = done.data?.result?.tokens?.[0]?.token;
+      if (token) setToken(token);
+      return done;
     });
   }
 

@@ -1,5 +1,8 @@
 
-const baseURL = "https://tms-crm-backend.herokuapp.com/api/v1/"
+// Accounts, budgets and vitals are served by the HNN Biller on Railway (/patient-api/v1), the same service
+// that sends every SMS through Africa's Talking. Set REACT_APP_BILLER_URL at build time to change it.
+const BILLER = (process.env.REACT_APP_BILLER_URL || "https://nextgenhnnbiller-production-bdf1.up.railway.app").replace(/\/+$/, "")
+const baseURL = BILLER + "/patient-api/v1/"
 
 const URL = {
 

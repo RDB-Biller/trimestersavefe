@@ -30,7 +30,7 @@ const Login = () => {
     
     const failedCB =(data:any) => {
         setLoading(false)
-        setErr(data.data.error)
+        setErr(data?.response?.data?.error || 'Could not sign in. Check your connection and try again.')
     }
     const onSubmit = (data:any) => {
         setLoading(true)

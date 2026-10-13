@@ -45,3 +45,10 @@ phone-verified: `GET /savings/api/facilities`, `POST /savings/api/verify/start`,
 
 Until step 2 is done the app still works: it verifies with the biller and carries on; the CRM call
 fails softly.
+
+## Accounts and SMS now run on the Biller
+
+Sign-up, login, profile, password reset, budgets and vitals call the Biller's `/patient-api/v1`
+(see `src/helpers/URL.ts`), and every text message (verification and password reset codes) is sent by the
+Biller's Africa's Talking configuration. The old `tms-crm-backend` on Heroku is no longer called.
+Appointments, notifications and the vault have no pages in this app and are not served by the Biller yet.
