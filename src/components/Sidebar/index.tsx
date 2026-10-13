@@ -39,6 +39,13 @@ const Sidebar = () => {
             location: '/birthprep'
         },
         {
+            id: 7,
+            title: 'Appointments',
+            svg: SVGs.calendar,
+            svg_fill: SVGs.calendar_fill,
+            location: '/appointments'
+        },
+        {
             id: 3, 
             title: 'Report',
             svg: SVGs.file,

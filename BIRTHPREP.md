@@ -51,4 +51,4 @@ fails softly.
 Sign-up, login, profile, password reset, budgets and vitals call the Biller's `/patient-api/v1`
 (see `src/helpers/URL.ts`), and every text message (verification and password reset codes) is sent by the
 Biller's Africa's Talking configuration. The old `tms-crm-backend` on Heroku is no longer called.
-Appointments, notifications and the vault have no pages in this app and are not served by the Biller yet.
+Appointments (with an SMS reminder the day before), notifications (the header bell) and the document vault are also served by the Biller and have pages in the app.

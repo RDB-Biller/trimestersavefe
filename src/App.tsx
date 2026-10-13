@@ -14,6 +14,8 @@ import Verify from 'pages/Auth/Verify';
 import Settings from 'pages/Dashboard/Settings';
 import BirthPrep from 'pages/Dashboard/BirthPrep';
 import BirthPrepSignup from 'pages/BirthPrep/Signup';
+import Appointments from 'pages/Dashboard/Appointments';
+import Vault from 'pages/Dashboard/Vault';
 
 
 const App = () => {
@@ -35,6 +37,8 @@ const App = () => {
           <Route path='budget' element={<Budget />}/>
           <Route path='settings' element={<Settings />}/>
           <Route path='birthprep' element={<BirthPrep />}/>
+          <Route path='appointments' element={<Appointments />}/>
+          <Route path='vault' element={<Vault />}/>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>
