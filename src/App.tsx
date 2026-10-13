@@ -12,6 +12,8 @@ import Report from 'pages/Dashboard/Report';
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Verify from 'pages/Auth/Verify';
 import Settings from 'pages/Dashboard/Settings';
+import BirthPrep from 'pages/Dashboard/BirthPrep';
+import BirthPrepSignup from 'pages/BirthPrep/Signup';
 
 
 const App = () => {
@@ -26,11 +28,13 @@ const App = () => {
           <Route path='/reset_password' element={<ResetPassword />} /> 
           <Route path='/verify' element={<Verify />} /> 
         </Route>
+        <Route path='/birthprep' element={<BirthPrepSignup />} />
         <Route path='dashboard' element={<Dashboard />} >
           <Route index element={<Metrics />}/>
           <Route path='report' element={<Report />}/>
           <Route path='budget' element={<Budget />}/>
           <Route path='settings' element={<Settings />}/>
+          <Route path='birthprep' element={<BirthPrep />}/>
         </Route>
         <Route path="*" element={<NotFound />} />
       </Routes>

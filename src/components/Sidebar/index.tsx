@@ -32,6 +32,13 @@ const Sidebar = () => {
             location: '/budget'
         },
         {
+            id: 6,
+            title: 'Savings plans',
+            svg: SVGs.piggy,
+            svg_fill: SVGs.piggy_fill,
+            location: '/birthprep'
+        },
+        {
             id: 3, 
             title: 'Report',
             svg: SVGs.file,

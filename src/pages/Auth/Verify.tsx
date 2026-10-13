@@ -28,7 +28,8 @@ const Verify = () => {
             clearUser()
             navigate('/dashboard')
         }).catch(err=> {
-            setErr(err.response.data.error)
+            const e = err?.response?.data?.error
+            setErr(e === 'code_invalid' ? 'That code is not right.' : e === 'code_expired_or_missing' ? 'The code has expired. Resend it.' : e === 'too_many_attempts' ? 'Too many attempts. Resend a new code.' : (e || 'Could not verify'))
             setLoading(false)
         })  
     }
@@ -44,8 +45,9 @@ const Verify = () => {
         authentication.ResendCode(userData)
         .then(res => {
             setLoading(false)
+            setInfo(res.data.codeSandbox ? `Code sent (test mode: ${res.data.codeSandbox}).` : `A new code was sent to ${res.data.to}.`)
         }).catch(err=> {
-            setErr(err.response.data.error)
+            setErr(err?.response?.data?.error || 'Could not send the code')
             setLoading(false)
         })
     }

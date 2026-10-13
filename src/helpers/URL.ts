@@ -36,7 +36,7 @@ const URL = {
     //patient
     registerPatient: baseURL + 'patient/register', 
     getUserProfile: baseURL + 'patient/me', 
-    resendCode: baseURL + 'patient/send_verification_code', 
+    resendCode: baseURL + 'patient/send_verification_code', // no longer used by the app: codes go through the HNN Biller (Africa's Talking)
     loginPatient: baseURL + 'patient/login', 
     verifyEmail: baseURL + 'patient/verify_email', 
     verifyPhone: baseURL + 'patient/verify_phone', 
@@ -44,7 +44,7 @@ const URL = {
     changePassword: baseURL + 'patient/change_password', 
     forgotPassword: baseURL + 'patient/forgot_password', 
     resetPassword: baseURL + 'patient/reset_password',
-    sendSMS: baseURL + 'patient/send_sms_code', 
+    sendSMS: baseURL + 'patient/send_sms_code', // no longer used by the app
 
     //vault
     addVaultFile: baseURL + 'vault/add_file', 

@@ -20,10 +20,14 @@ const Register = () => {
     const [err, setErr] = useState('')
     const navigate = useNavigate()
 
+    // After the CRM creates the account, the verification code is sent by the HNN Biller's SMS
+    // provider (Africa's Talking) - see services/patient/authentication.ts - not by the CRM's Twilio.
     const successCB = (data:any) => {
         setUser(data)
-        setLoading(false)
-        navigate('/verify')
+        authentication.ResendCode({ phone: data }).catch(() => null).finally(() => {
+            setLoading(false)
+            navigate('/verify')
+        })
     }
     
     const failedCB =(data:any) => {

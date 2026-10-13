@@ -33,6 +33,7 @@ const Auth = () => {
                     <p className="text-grey_text text-center mt-10" >Already have an account? <span className=" font-bold" ><Link to='/' className="text-secondary" >Sign In</Link></span> </p>
                     : <p className="text-grey_text text-center mt-10" >New here? <span className=" font-bold" ><Link to='/register' className="text-secondary" >Create an account</Link></span> </p>
                     }
+                    <p className="text-grey_text text-center mt-4" >Expecting a baby or planning a procedure? <span className="font-bold"><Link to='/birthprep' className="text-secondary">Start a savings plan</Link></span> — no account needed.</p>
                 </div>
 
             </div>
