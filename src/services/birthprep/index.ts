@@ -6,7 +6,7 @@ import axios from "axios";
  * identity. Set REACT_APP_BILLER_URL in .env (defaults to the production biller).
  */
 export const BILLER_URL =
-  process.env.REACT_APP_BILLER_URL || "https://nextgenhnnbiller-production.up.railway.app";
+  process.env.REACT_APP_BILLER_URL || "https://nextgenhnnbiller-production-bdf1.up.railway.app";
 
 const api = axios.create({ baseURL: `${BILLER_URL}/savings/api`, timeout: 20000 });
 
