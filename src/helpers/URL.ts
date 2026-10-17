@@ -37,6 +37,8 @@ const URL = {
     readNotification: baseURL + 'notification/read_notification/:id',
 
     //patient
+    authOptions: baseURL + 'patient/auth_options', // Master Control decides if a mobile phone is mandatory or email may be used
+    startEmail: baseURL + 'patient/email/start',
     registerPatient: baseURL + 'patient/register', 
     getUserProfile: baseURL + 'patient/me', 
     resendCode: baseURL + 'patient/send_verification_code', // no longer used by the app: codes go through the HNN Biller (Africa's Talking)

@@ -17,10 +17,8 @@ const ForgotPassword = () => {
         setLoading(true)
         setErr('')
 
-        data.phone = data.phone.charAt(0) === '0' ? "+233" + data.phone.substring(1) : data.phone
-        const userData={
-            phone: data.phone,
-        }
+        const raw: string = (data.phone || '').trim()
+        const userData: any = raw.includes('@') ? { email: raw } : { phone: raw.charAt(0) === '0' ? "+233" + raw.substring(1) : raw }
         authentication.ForgetPassword(userData).then(
             (res:any) => {
                 setLoading(false)
@@ -35,7 +33,7 @@ const ForgotPassword = () => {
     return(
         <div className="login text-center mt-24 lg:mt-52">
             <h3>Forgot password</h3>
-            <p className="text-grey_text my-4" >Enter the phone number on your account and we will text you a reset code.</p>
+            <p className="text-grey_text my-4" >Enter the mobile number or email on your account and we will send you a reset code.</p>
 
             {(!!err) && (
                 <div
@@ -57,16 +55,12 @@ const ForgotPassword = () => {
                 <Input 
                     placeholder="Enter your phone number" 
                     name="phone" 
-                    type='tel'
-                    label="Phone Number" 
+                    label="Mobile number or email" 
                     register={register} 
                     svg={SVGs.email}
                     error={errors.email && "Please enter your phone number"}
                     options={{
                         required: true,
-                        minLength: 6,
-                        maxLenght: 10,
-                        pattern: "^[0-9]*$",
                     }} />
 
                 <Button title="Continue" loading={loading} />

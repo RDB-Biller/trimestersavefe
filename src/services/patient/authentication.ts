@@ -1,7 +1,7 @@
 import axios from "axios";
 import URL from "../../helpers/URL"
 import { startVerification, checkVerification } from "../birthprep"
-import { setToken } from "../../helpers/utilities"
+import { setToken, getToken } from "../../helpers/utilities"
 
 class Authentication {
   authenticated: boolean;
@@ -32,6 +32,27 @@ class Authentication {
       .catch((err) => {
         failedCb(err);
       });
+  }
+
+  /** Whether the Biller lets people open an account with an email address (Master Control setting). */
+  AuthOptions(): Promise<{ requirePhone: boolean; emailSignup: boolean }> {
+    return axios.get(URL.authOptions, { timeout: 30000 }).then((res) => res.data.result);
+  }
+
+  /** Email-only sign-up: sign in with the new account, then email it a confirmation code. */
+  async StartEmailAccount(identifier: string, password: string) {
+    const login = await axios.post(URL.loginPatient, { identifier, password }, { timeout: 100000 });
+    const token = login.data?.result?.tokens?.[0]?.token;
+    if (token) setToken(token);
+    return axios.post(URL.startEmail, {}, { headers: { Authorization: `Bearer ${token}` }, timeout: 100000 });
+  }
+
+  ResendEmailCode() {
+    return axios.post(URL.startEmail, {}, { headers: { Authorization: `Bearer ${getToken()}` }, timeout: 100000 });
+  }
+
+  VerifyEmailCode(code: string) {
+    return axios.patch(URL.verifyEmail, { code }, { headers: { Authorization: `Bearer ${getToken()}` }, timeout: 100000 });
   }
 
   ForgetPassword(data: any) {

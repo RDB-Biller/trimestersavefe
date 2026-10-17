@@ -11,6 +11,8 @@ const Verify = () => {
     const [ info, setInfo ] = useState('')
     
     const navigate = useNavigate()
+    // An account opened with an email address confirms it with an emailed code (the stored value is the email).
+    const isEmail = getUser().includes('@')
 
     const onSubmit = () => {
         setErr('')
@@ -22,7 +24,8 @@ const Verify = () => {
           code: otp.join(""), 
         }
         
-        authentication.VerifyCode(userData)
+        const verify = isEmail ? authentication.VerifyEmailCode(otp.join("")) : authentication.VerifyCode(userData)
+        verify
         .then(res => {
             setLoading(false)
             clearUser()
@@ -42,10 +45,12 @@ const Verify = () => {
           phone: getUser()
         }
         
-        authentication.ResendCode(userData)
-        .then(res => {
+        const again = isEmail ? authentication.ResendEmailCode() : authentication.ResendCode(userData)
+        again
+        .then((res: any) => {
             setLoading(false)
-            setInfo(res.data.codeSandbox ? `Code sent (test mode: ${res.data.codeSandbox}).` : `A new code was sent to ${res.data.to}.`)
+            const body = res.data?.result || res.data
+            setInfo(body.codeSandbox ? `Code sent (test mode: ${body.codeSandbox}).` : `A new code was sent to ${body.to}.`)
         }).catch(err=> {
             setErr(err?.response?.data?.error || 'Could not send the code')
             setLoading(false)
@@ -86,7 +91,7 @@ const Verify = () => {
     return(
         <div className="login text-center mt-16 lg:mt-24">
             <h3>Verification</h3>
-            <p className="text-grey_text my-4" >Please enter the verification code</p>
+            <p className="text-grey_text my-4" >{isEmail ? 'Enter the code we emailed to you' : 'Please enter the verification code'}</p>
       
             {(!!err || !!info) && (
                 <div

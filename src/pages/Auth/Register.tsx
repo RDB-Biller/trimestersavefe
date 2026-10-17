@@ -1,7 +1,7 @@
 /* eslint-disable no-useless-escape */
 import Button from "components/Button"
 import Input from "components/Input"
-import { Dispatch, useState } from "react"
+import { Dispatch, useEffect, useState } from "react"
 import { useForm } from "react-hook-form"
 import SVGs from "helpers/SVGs"
 import authentication from "services/patient/authentication"
@@ -21,6 +21,9 @@ const Register = () => {
     const [err, setErr] = useState('')
     const navigate = useNavigate()
     const { t } = useI18n()
+    // Master Control decides whether a mobile phone is mandatory or an email address may be used instead.
+    const [ opts, setOpts ] = useState<{ requirePhone: boolean, emailSignup: boolean }>({ requirePhone: false, emailSignup: true })
+    useEffect(() => { authentication.AuthOptions().then(setOpts).catch(() => setOpts({ requirePhone: true, emailSignup: false })) }, [])
 
     // The account is created on the HNN Biller, which then texts the verification code through its own
     // SMS provider (Africa's Talking) - see services/patient/authentication.ts.
@@ -41,16 +44,32 @@ const Register = () => {
         setErr('')
         setLoading(true)
 
-        data.phone = data.phone.charAt(0) === '0' ? "+233" + data.phone.substring(1) : data.phone
+        const phone: string = (data.phone || '').trim()
+        const email: string = opts.emailSignup ? (data.email || '').trim() : ''
+        const fullPhone = phone.charAt(0) === '0' ? "+233" + phone.substring(1) : phone
+        if(!fullPhone && !email){
+            setLoading(false)
+            setErr(opts.requirePhone ? 'Please enter your mobile phone number' : 'Please enter a mobile phone number or an email address')
+            return
+        }
         if(data.password === data.confirm_password){
-            const userData={
+            const userData: any = {
                 first_name: data.first_name,
                 last_name: data.last_name,
-                phone: data.phone,
                 password: data.password,
                 language: currentLanguage()
             }
-            return authentication.RegisterPatient(userData, successCB, failedCB)
+            if(fullPhone) userData.phone = fullPhone
+            if(email) userData.email = email
+            if(fullPhone) return authentication.RegisterPatient(userData, successCB, failedCB)
+            // Email only: create the account, then email the confirmation code.
+            return authentication.RegisterPatient(userData, () => {
+                setUser(email)
+                authentication.StartEmailAccount(email, data.password).catch(() => null).finally(() => {
+                    setLoading(false)
+                    navigate('/verify')
+                })
+            }, failedCB)
         }
 
         setLoading(false)
@@ -106,28 +125,27 @@ const Register = () => {
                         placeholder={t('auth.phone_ph')} 
                         name="phone" 
                         type="tel"
-                        label={t('auth.phone')} 
+                        label={opts.requirePhone ? t('auth.phone') : t('auth.phone') + ' (optional if you use email)'} 
                         register={register} 
-                        error={errors.last_name && "Please enter a correct phone number"}
+                        error={errors.phone && "Please enter a correct phone number"}
                         options={{
-                            required: true,
+                            required: opts.requirePhone,
                             minLength: 6,
                             maxLenght: 10,
                             pattern: "^[0-9]*$",
                           }} />
 
-                    {/* <Input 
+                    {opts.emailSignup && <Input 
                         placeholder="Enter your email" 
                         name="email" 
-                        label="Email Address (optional)" 
+                        type="email"
+                        label="Email address (optional if you use a mobile number)" 
                         register={register} 
-                        error={errors.email && "Please enter your email"}
+                        error={errors.email && "Please enter a valid email address"}
                         svg={SVGs.email}
                         options={{
                             required: false,
-                            pattern: /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/g,
-                          }} />
-                   */}
+                          }} />}
                      <Input 
                         name="password" 
                         placeholder={t('auth.password_ph')} 

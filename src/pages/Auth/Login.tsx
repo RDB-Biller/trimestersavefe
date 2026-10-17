@@ -36,9 +36,11 @@ const Login = () => {
     }
     const onSubmit = (data:any) => {
         setLoading(true)
-        data.phone = data.phone.charAt(0) === '0' ? "+233" + data.phone.substring(1) : data.phone
+        // Mobile number or email address: the Biller accepts either as the identifier.
+        const raw: string = (data.phone || '').trim()
+        const identifier = raw.includes('@') ? raw : (raw.charAt(0) === '0' ? "+233" + raw.substring(1) : raw)
         const userData={
-            phone: data.phone,
+            identifier,
             password: data.password
         }
         authentication.LoginPatient(userData, successCB, failedCB)
@@ -69,15 +71,12 @@ const Login = () => {
                 <Input 
                     placeholder={t('auth.phone_ph')} 
                     name="phone" 
-                    label={t('auth.phone')} 
+                    label={t('auth.phone') + ' or email'} 
                     register={register} 
                     svg={SVG.phone}
                     error={errors.phone && t('auth.phone_err')}
                         options={{
                             required: true,
-                            minLength: 6,
-                            maxLenght: 10,
-                            pattern: "^[0-9]*$",
                         }}  />
 
                 <Input 
