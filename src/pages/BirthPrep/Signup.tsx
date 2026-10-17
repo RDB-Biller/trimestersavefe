@@ -1,3 +1,5 @@
+import { useI18n } from "i18n";
+import LanguageSwitcher from "components/LanguageSwitcher";
 import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { Link } from "react-router-dom";
@@ -12,6 +14,7 @@ import PlanCard from "./PlanCard";
  *   3. the plan, worked out by the biller from the answers and the hospital's history of the patient
  */
 const Signup = () => {
+  const { t } = useI18n();
   const [facilities, setFacilities] = useState<Facility[]>([]);
   const [step, setStep] = useState<1 | 2 | 3>(1);
   const [busy, setBusy] = useState(false);
@@ -56,7 +59,7 @@ const Signup = () => {
     <div className="min-h-screen bg-[#F2F6FA]">
       <Helmet><title>BirthPrep savings | Trimester Save</title></Helmet>
       <div className="max-w-xl mx-auto p-6">
-        <header className="flex items-center justify-between mb-6"><img src={logo} alt="Trimester Save" className="h-10" /><Link to="/" className="text-secondary text-sm font-semibold">Sign in</Link></header>
+        <header className="flex items-center justify-between mb-6"><img src={logo} alt="Trimester Save" className="h-10" /><div className="flex items-center gap-3"><LanguageSwitcher /><Link to="/" className="text-secondary text-sm font-semibold">{t('auth.signin')}</Link></div></header>
         <h2 className="text-2xl font-bold">Save towards your delivery</h2>
         <p className="text-light_grey_text text-sm mb-6">A savings plan worked out from your pregnancy, your history and your hospital's prices, with milestones that adjust if things change. Or save for a planned procedure, or anything else.</p>
 

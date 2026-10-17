@@ -1,3 +1,4 @@
+import { useI18n } from "i18n";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { MyPlan, Plan, errorText, getPlan, myPlans, rememberPlans, savedPlans, startVerification } from "services/birthprep";
@@ -5,6 +6,7 @@ import PlanCard from "pages/BirthPrep/PlanCard";
 
 /** "My savings plans": the plans this person holds across every hospital, read from the biller. */
 const BirthPrep = () => {
+  const { t } = useI18n();
   const [list, setList] = useState<MyPlan[]>(savedPlans());
   const [plans, setPlans] = useState<Record<string, Plan>>({});
   const [phone, setPhone] = useState("");
@@ -29,7 +31,7 @@ const BirthPrep = () => {
   return (
     <div className="p-6 md:p-10">
       <div className="flex justify-between items-center flex-wrap gap-4 mb-6">
-        <div><h4 className="text-xl font-semibold">My savings plans</h4><p className="text-light_grey_text text-sm">BirthPrep plans from your hospital, with milestones that adjust to your pregnancy.</p></div>
+        <div><h4 className="text-xl font-semibold">{t('save.title')}</h4><p className="text-light_grey_text text-sm">BirthPrep plans from your hospital, with milestones that adjust to your pregnancy.</p></div>
         <Link to="/birthprep" className="bg-primary text-white rounded-2xl p-3 px-5 text-sm font-semibold">Start a new plan</Link>
       </div>
 

@@ -2,10 +2,12 @@ import SVGs from "helpers/SVGs"
 import { Link, useLocation } from "react-router-dom"
 import { useState } from 'react'
 import placeholder from "assets/images/pl.svg"
+import { useI18n } from "i18n"
 
 type sidebarType = {
     id:React.Key | null | undefined,
     title:String,
+    key?:string,
     svg:JSX.Element,
     svg_fill:JSX.Element,
     location:String
@@ -14,12 +16,14 @@ type sidebarType = {
 const Sidebar = () => {
 
     const location = useLocation()
+    const { t } = useI18n()
     const [ open, toggle] = useState(true)
 
     const sidebar:Array<sidebarType> = [
         {
             id: 1,
             title: 'Dashboard',
+            key: 'nav.dashboard',
             svg: SVGs.grid,
             svg_fill: SVGs.grid_fill,
             location: ''
@@ -27,6 +31,7 @@ const Sidebar = () => {
         {
             id: 2,
             title: 'Budget',
+            key: 'nav.budget',
             svg: SVGs.piggy,
             svg_fill: SVGs.piggy_fill,
             location: '/budget'
@@ -34,6 +39,7 @@ const Sidebar = () => {
         {
             id: 6,
             title: 'Savings plans',
+            key: 'nav.savings',
             svg: SVGs.piggy,
             svg_fill: SVGs.piggy_fill,
             location: '/birthprep'
@@ -41,6 +47,7 @@ const Sidebar = () => {
         {
             id: 7,
             title: 'Appointments',
+            key: 'nav.appointments',
             svg: SVGs.calendar,
             svg_fill: SVGs.calendar_fill,
             location: '/appointments'
@@ -48,6 +55,7 @@ const Sidebar = () => {
         {
             id: 3, 
             title: 'Report',
+            key: 'nav.report',
             svg: SVGs.file,
             svg_fill: SVGs.file_fill,
             location: '/report'
@@ -55,6 +63,7 @@ const Sidebar = () => {
         {
             id: 4,
             title: 'Vault',
+            key: 'nav.vault',
             svg: SVGs.safe,
             svg_fill: SVGs.safe_fill,
             location: '/vault'
@@ -62,6 +71,7 @@ const Sidebar = () => {
         {
             id: 5,
             title: 'Settings',
+            key: 'nav.settings',
             svg: SVGs.gear,
             svg_fill: SVGs.gear_fill,
             location: '/settings'
@@ -88,7 +98,7 @@ const Sidebar = () => {
                         sidebar.map((data:sidebarType) => (
                             <Link key={data.id} to={`/dashboard${data.location}`} className={`flex gap-4 mb-10 text-light_grey_text items-center`} >
                                 { location.pathname === `/dashboard`+data.location ? <span>{ data.svg_fill }</span> : <span>{ data.svg }</span> }
-                                <p className={` ${location.pathname === `/dashboard`+data.location ? 'text-primary font-semibold' : 'text-light_grey_text'} `} >{data.title}</p>
+                                <p className={` ${location.pathname === `/dashboard`+data.location ? 'text-primary font-semibold' : 'text-light_grey_text'} `} >{data.key ? t(data.key) : data.title}</p>
                             </Link>
                         ))
                     }

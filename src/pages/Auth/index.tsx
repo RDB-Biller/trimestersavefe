@@ -2,10 +2,13 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import BG from 'assets/images/bg-auth.png'
 import logo from 'assets/images/logo.png'
 import { Helmet } from "react-helmet";
+import { useI18n } from "i18n";
+import LanguageSwitcher from "components/LanguageSwitcher";
 
 const Auth = () => {
 
     const location = useLocation()
+    const { t } = useI18n()
     
     return(
         <div className="grid relative lg:grid-cols-2 h-full">
@@ -25,15 +28,15 @@ const Auth = () => {
                     <div>
                         <img src={logo} alt="logo " />
                     </div>
-                    
+                    <LanguageSwitcher className="absolute top-4 right-4 md:static" />
                 </header>
                 <div >
                     <Outlet />
                     { location.pathname !== '/' ?
-                    <p className="text-grey_text text-center mt-10" >Already have an account? <span className=" font-bold" ><Link to='/' className="text-secondary" >Sign In</Link></span> </p>
-                    : <p className="text-grey_text text-center mt-10" >New here? <span className=" font-bold" ><Link to='/register' className="text-secondary" >Create an account</Link></span> </p>
+                    <p className="text-grey_text text-center mt-10" >{t('auth.have_account')} <span className=" font-bold" ><Link to='/' className="text-secondary" >{t('auth.signin')}</Link></span> </p>
+                    : <p className="text-grey_text text-center mt-10" >{t('auth.new_here')} <span className=" font-bold" ><Link to='/register' className="text-secondary" >{t('auth.signup')}</Link></span> </p>
                     }
-                    <p className="text-grey_text text-center mt-4" >Expecting a baby or planning a procedure? <span className="font-bold"><Link to='/birthprep' className="text-secondary">Start a savings plan</Link></span> — no account needed.</p>
+                    <p className="text-grey_text text-center mt-4" >{t('auth.savings_cta')} <span className="font-bold"><Link to='/birthprep' className="text-secondary">{t('auth.savings_link')}</Link></span> — {t('auth.no_account_needed')}.</p>
                 </div>
 
             </div>

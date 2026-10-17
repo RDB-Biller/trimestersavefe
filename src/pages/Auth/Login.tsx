@@ -8,6 +8,7 @@ import authentication from "services/patient/authentication"
 import { store } from "store"
 import { setToken } from "helpers/utilities"
 import { setUser } from "helpers/utilities"
+import { useI18n } from "i18n"
 
 export const dispatchStore = store.dispatch as
   | typeof store.dispatch
@@ -20,6 +21,7 @@ const Login = () => {
     const [ err, setErr ] = useState('')
 
     const navigate = useNavigate()
+    const { t } = useI18n()
 
     const successCB = (data:any) => {
         setToken(data.tokens[0].token)
@@ -44,8 +46,8 @@ const Login = () => {
 
     return(
         <div className="login text-center mt-24 lg:mt-52">
-            <h3>Welcome Back!</h3>
-            <p className="text-grey_text my-4" >We've missed you. Sign In to access <br /> your account</p>
+            <h3>{t('auth.welcome')}</h3>
+            <p className="text-grey_text my-4" >{t('auth.welcome_sub')}</p>
       
             {(!!err) && (
                 <div
@@ -65,12 +67,12 @@ const Login = () => {
 
             <form className="text-left mt-10 max-w-[450px] mx-auto relative" onSubmit={handleSubmit(onSubmit)}>
                 <Input 
-                    placeholder="Enter your phone number" 
+                    placeholder={t('auth.phone_ph')} 
                     name="phone" 
-                    label="Phone number" 
+                    label={t('auth.phone')} 
                     register={register} 
                     svg={SVG.phone}
-                    error={errors.phone && "Please enter a correct phone number"}
+                    error={errors.phone && t('auth.phone_err')}
                         options={{
                             required: true,
                             minLength: 6,
@@ -80,18 +82,18 @@ const Login = () => {
 
                 <Input 
                     name="password" 
-                    placeholder="Enter your password" 
+                    placeholder={t('auth.password_ph')} 
                     type="password" 
-                    label="Password" 
+                    label={t('auth.password')} 
                     register={register} 
                     svg={SVG.lock}
-                    error={errors.password && "Please enter your password"}
+                    error={errors.password && t('auth.password_err')}
                         options={{
                             required: true
                         }}  />
                     
-                <p className="-mt-6 absolute right-0 cursor-pointer text-grey_text hover:text-primary" > <Link to='/forgot_password'>Forget password?</Link> </p>
-                <Button title="Sign In" loading={loading} />
+                <p className="-mt-6 absolute right-0 cursor-pointer text-grey_text hover:text-primary" > <Link to='/forgot_password'>{t('auth.forgot')}</Link> </p>
+                <Button title={t('auth.signin')} loading={loading} />
             </form>
         </div>
     )

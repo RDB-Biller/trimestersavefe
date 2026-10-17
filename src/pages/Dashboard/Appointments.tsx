@@ -1,3 +1,4 @@
+import { useI18n } from "i18n";
 import { useEffect, useState } from "react";
 import { Appointment, createAppointment, deleteAppointment, errorMessage, getAppointments, updateAppointment } from "services/patient/account";
 
@@ -5,6 +6,7 @@ const blank = { title: "", date: "", time: "", hospital: "", doctor: "", notes: 
 
 /** Appointments: add visits, get a text reminder the day before, mark them done or cancel them. */
 const Appointments = () => {
+  const { t } = useI18n();
   const [items, setItems] = useState<Appointment[]>([]);
   const [form, setForm] = useState<any>(blank);
   const [err, setErr] = useState("");
@@ -34,22 +36,22 @@ const Appointments = () => {
         {a.notes && <p className="text-sm mt-1">{a.notes}</p>}
       </div>
       <div className="flex gap-3 text-sm items-start">
-        {a.status === "upcoming" && <button className="text-primary" onClick={() => mark(a, "completed")}>Done</button>}
-        {a.status === "upcoming" && <button className="text-light_grey_text" onClick={() => mark(a, "cancelled")}>Cancel</button>}
-        <button className="text-secondary" onClick={() => remove(a)}>Delete</button>
+        {a.status === "upcoming" && <button className="text-primary" onClick={() => mark(a, "completed")}>{t('status.success')}</button>}
+        {a.status === "upcoming" && <button className="text-light_grey_text" onClick={() => mark(a, "cancelled")}>{t('act.cancel')}</button>}
+        <button className="text-secondary" onClick={() => remove(a)}>{t('act.delete')}</button>
       </div>
     </div>
   );
 
   return (
     <div className="p-6 md:p-10">
-      <h4 className="text-xl font-semibold">Appointments</h4>
+      <h4 className="text-xl font-semibold">{t('appt.title')}</h4>
       <p className="text-light_grey_text text-sm mb-6">Keep your visits in one place. We text you a reminder the day before.</p>
 
       <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm">
         <div className="grid md:grid-cols-2 gap-3">
           <input className="border rounded-xl p-3" placeholder="What is it for? (e.g. Antenatal check)" value={form.title} onChange={(e) => set("title", e.target.value)} />
-          <input className="border rounded-xl p-3" placeholder="Hospital or clinic" value={form.hospital} onChange={(e) => set("hospital", e.target.value)} />
+          <input className="border rounded-xl p-3" placeholder={t('save.facility')} value={form.hospital} onChange={(e) => set("hospital", e.target.value)} />
           <input className="border rounded-xl p-3" type="date" value={form.date} onChange={(e) => set("date", e.target.value)} />
           <input className="border rounded-xl p-3" type="time" value={form.time} onChange={(e) => set("time", e.target.value)} />
           <input className="border rounded-xl p-3" placeholder="Doctor or midwife (optional)" value={form.doctor} onChange={(e) => set("doctor", e.target.value)} />

@@ -8,6 +8,7 @@ import authentication from "services/patient/authentication"
 import { useNavigate } from "react-router-dom"
 import { setUser } from "helpers/utilities"
 import { store } from "store"
+import { useI18n, currentLanguage } from "i18n"
 
 export const dispatchStore = store.dispatch as
   | typeof store.dispatch
@@ -19,6 +20,7 @@ const Register = () => {
     const [ loading, setLoading ] = useState(false)
     const [err, setErr] = useState('')
     const navigate = useNavigate()
+    const { t } = useI18n()
 
     // The account is created on the HNN Biller, which then texts the verification code through its own
     // SMS provider (Africa's Talking) - see services/patient/authentication.ts.
@@ -45,7 +47,8 @@ const Register = () => {
                 first_name: data.first_name,
                 last_name: data.last_name,
                 phone: data.phone,
-                password: data.password
+                password: data.password,
+                language: currentLanguage()
             }
             return authentication.RegisterPatient(userData, successCB, failedCB)
         }
@@ -56,7 +59,7 @@ const Register = () => {
     
     return(
         <div className="register text-center mt-20">
-        <h3>Create a new Account</h3>
+        <h3>{t('auth.signup_title')}</h3>
         <p className="text-grey_text my-4" >Kindly fill in the following information <br /> to get started</p>
 
         
@@ -79,9 +82,9 @@ const Register = () => {
         <form className="text-left mt-10 max-w-[450px] mx-auto relative" onSubmit={handleSubmit(onSubmit)}>
 
                     <Input 
-                        placeholder="Enter your first name" 
+                        placeholder={t('auth.firstname')} 
                         name="first_name" 
-                        label="First Name" 
+                        label={t('auth.firstname')} 
                         svg={SVGs.person}
                         register={register} 
                         error={errors.first_name && "Please enter your first name"}
@@ -90,9 +93,9 @@ const Register = () => {
                         }} />
                     <Input 
                         svg={SVGs.person}
-                        placeholder="Enter your last name" 
+                        placeholder={t('auth.lastname')} 
                         name="last_name" 
-                        label="Surname" 
+                        label={t('auth.lastname')} 
                         register={register} 
                         error={errors.last_name && "Please enter your last name"}
                         options={{
@@ -100,10 +103,10 @@ const Register = () => {
                         }} />
                     <Input 
                         svg={SVGs.phone}
-                        placeholder="Enter your Phone number" 
+                        placeholder={t('auth.phone_ph')} 
                         name="phone" 
                         type="tel"
-                        label="Phone number" 
+                        label={t('auth.phone')} 
                         register={register} 
                         error={errors.last_name && "Please enter a correct phone number"}
                         options={{
@@ -127,9 +130,9 @@ const Register = () => {
                    */}
                      <Input 
                         name="password" 
-                        placeholder="Enter your password" 
+                        placeholder={t('auth.password_ph')} 
                         type="password" 
-                        label="Create Password" 
+                        label={t('auth.password')} 
                         svg={SVGs.lock}
                         register={register} 
                         error={errors.password && "Please enter your password"}
@@ -150,7 +153,7 @@ const Register = () => {
                         }}
                          />
 
-                    <Button  title="Create Account"  loading={loading} />
+                    <Button  title={t('auth.signup')}  loading={loading} />
 
         </form>
     </div>

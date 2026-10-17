@@ -52,3 +52,13 @@ Sign-up, login, profile, password reset, budgets and vitals call the Biller's `/
 (see `src/helpers/URL.ts`), and every text message (verification and password reset codes) is sent by the
 Biller's Africa's Talking configuration. The old `tms-crm-backend` on Heroku is no longer called.
 Appointments (with an SMS reminder the day before), notifications (the header bell) and the document vault are also served by the Biller and have pages in the app.
+
+## Languages
+
+The app is available in English, French, Portuguese, Spanish, Arabic (right-to-left), Chinese, Hindi, German and
+Swahili, with Twi, Hausa, Yoruba and Ga prepared but hidden until a native speaker has reviewed them (set
+`REACT_APP_SHOW_UNREVIEWED_LANGUAGES=true` at build time to show them for testing). The picker is in the header and on
+the sign-in / sign-up screens; the choice is remembered, sent to the HNN Biller with registration, and used for the
+SMS codes and reminders the Biller sends. Strings live in `src/i18n/locales/*.json` (the same catalogs the Biller
+serves at `/i18n/api/catalog/:lang`); any missing key falls back to English. To translate a new screen, use
+`const { t } = useI18n()` and add the key to `en.json` and the other catalogs.

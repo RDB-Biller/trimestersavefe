@@ -1,3 +1,4 @@
+import { currentLanguage } from "i18n";
 import axios from "axios";
 
 /**
@@ -27,7 +28,7 @@ export type Plan = {
 export type MyPlan = { planNo: string; token: string; goal: string; goalLabel: string; facility: string; status: string; end: string | null; progress: Plan["progress"]; createdAt: string };
 
 export const getFacilities = () => api.get<{ data: Facility[]; questions: Question[]; goals: string[]; horizons: string[] }>("/facilities");
-export const startVerification = (phone: string) => api.post<{ sent: boolean; sandbox: boolean; to: string; codeSandbox?: string }>("/verify/start", { phone });
+export const startVerification = (phone: string) => api.post<{ sent: boolean; sandbox: boolean; to: string; codeSandbox?: string }>("/verify/start", { phone, lang: currentLanguage() });
 export const signup = (body: {
   name: string; phone: string; code: string; facilityId: string; goal: string; horizon: string;
   other?: { months?: number; years?: number; open?: boolean } | null; answers?: Record<string, any>; facts?: Record<string, any>;

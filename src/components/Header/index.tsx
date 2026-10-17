@@ -3,6 +3,7 @@ import React, { useState } from "react"
 import { Link, useLocation } from "react-router-dom"
 import Notifications from "./Notifications "
 import UserMenu from "./UserMenu"
+import LanguageSwitcher from "components/LanguageSwitcher"
 
 
 type headerType = {
@@ -63,6 +64,7 @@ const Header = () => {
               </svg>
             </button>
             {/* <SearchModal id="search-modal" searchId="search" modalOpen={searchModalOpen} setModalOpen={setSearchModalOpen} /> */}
+            <LanguageSwitcher className="mr-3" />
             <Notifications />
             {/* <Help /> */}
             {/*  Divider */}

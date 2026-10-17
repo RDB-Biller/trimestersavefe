@@ -1,3 +1,4 @@
+import { useI18n } from "i18n";
 import { useEffect, useRef, useState } from "react";
 import { VaultFile, addVaultFile, deleteVaultFile, errorMessage, getVaultFile, getVaultFiles, updateVaultFile } from "services/patient/account";
 
@@ -6,6 +7,7 @@ const CATEGORIES = ["Scans", "Lab results", "Prescriptions", "Insurance", "Recei
 
 /** Vault: keep your own PDFs, scans and photos of results (up to 1 MB each) so they are with you at every visit. */
 const Vault = () => {
+  const { t } = useI18n();
   const [files, setFiles] = useState<VaultFile[]>([]);
   const [category, setCategory] = useState("Scans");
   const [err, setErr] = useState("");
@@ -43,13 +45,13 @@ const Vault = () => {
 
   return (
     <div className="p-6 md:p-10">
-      <h4 className="text-xl font-semibold">Vault</h4>
+      <h4 className="text-xl font-semibold">{t('vault.title')}</h4>
       <p className="text-light_grey_text text-sm mb-6">Your own copies of scans, lab results and prescriptions. PDF, image or text files up to 1 MB, 25 files.</p>
 
       <div className="bg-white rounded-2xl p-6 mb-6 shadow-sm flex gap-3 flex-wrap items-center">
         <select className="border rounded-xl p-3" value={category} onChange={(e) => setCategory(e.target.value)}>{CATEGORIES.map((c) => <option key={c}>{c}</option>)}</select>
         <input ref={input} type="file" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif,text/plain" disabled={busy} onChange={(e) => upload(e.target.files?.[0])} />
-        {busy && <span className="text-sm text-light_grey_text">Uploading...</span>}
+        {busy && <span className="text-sm text-light_grey_text">{t('status.loading')}</span>}
       </div>
       {err && <p className="text-secondary text-sm mb-4">{err}</p>}
 
@@ -63,7 +65,7 @@ const Vault = () => {
           <div className="flex gap-3 text-sm items-start">
             <button className="text-primary" onClick={() => open(f)}>Open</button>
             <button className="text-light_grey_text" onClick={() => rename(f)}>Rename</button>
-            <button className="text-secondary" onClick={() => remove(f)}>Delete</button>
+            <button className="text-secondary" onClick={() => remove(f)}>{t('act.delete')}</button>
           </div>
         </div>
       ))}
