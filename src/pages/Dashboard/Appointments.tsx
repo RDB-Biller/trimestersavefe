@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import { useI18n } from "i18n";
 import { useEffect, useState } from "react";
 import { Appointment, createAppointment, deleteAppointment, errorMessage, getAppointments, updateAppointment } from "services/patient/account";
@@ -58,7 +59,7 @@ const Appointments = () => {
           <input className="border rounded-xl p-3" placeholder="Notes (optional)" value={form.notes} onChange={(e) => set("notes", e.target.value)} />
         </div>
         <label className="flex items-center gap-2 text-sm mt-3"><input type="checkbox" checked={form.remind_sms} onChange={(e) => set("remind_sms", e.target.checked)} /> Text me a reminder the day before</label>
-        {err && <p className="text-secondary text-sm mt-3">{err}</p>}
+        {err && <><p className="text-secondary text-sm mt-3">{err}</p><NextSteps message={err} /></>}
         <button className="bg-primary text-white rounded-xl p-3 px-6 mt-4" disabled={busy} onClick={save}>{busy ? "Saving..." : "Add appointment"}</button>
       </div>
 

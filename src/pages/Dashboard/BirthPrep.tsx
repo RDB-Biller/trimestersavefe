@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import { useI18n } from "i18n";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -45,7 +46,7 @@ const BirthPrep = () => {
             : <button className="bg-primary text-white rounded-xl p-3 px-5" disabled={busy} onClick={fetchMine}>Show my plans</button>}
         </div>
         {sandboxCode && <p className="text-xs text-light_grey_text mt-2">Test mode: the code is {sandboxCode}.</p>}
-        {err && <p className="text-secondary text-sm mt-2">{err}</p>}
+        {err && <><p className="text-secondary text-sm mt-2">{err}</p><NextSteps message={err} /></>}
       </div>
 
       {list.length === 0 && <p className="text-light_grey_text">No plans on this device yet.</p>}

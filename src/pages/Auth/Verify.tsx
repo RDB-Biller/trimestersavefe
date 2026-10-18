@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import Button from "components/Button"
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
@@ -106,8 +107,7 @@ const Verify = () => {
                     !!err && "text-secondary "
                     }   text-xs`}
                 >
-                    {err || info}
-                </p>
+                    {err || info}</p>{!!err && <NextSteps message={err} />}
                 </div>
             )}
 

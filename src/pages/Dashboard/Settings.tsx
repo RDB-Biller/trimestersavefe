@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import { useState, useEffect } from "react"
 import Button from "components/Button"
 import Input from "components/Input"
@@ -93,8 +94,7 @@ const Settings = () => {
                     !!err && "text-secondary "
                     }   text-xs`}
                 >
-                    {err}
-                </p>
+                    {err}</p><NextSteps message={err} />
                 </div>
             )}
             {(!!successMessage) && (

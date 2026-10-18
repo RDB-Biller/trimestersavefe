@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import Button from "components/Button"
 import Input from "components/Input"
 import SVGs from "helpers/SVGs"
@@ -53,8 +54,7 @@ const ResetPassword = () => {
                     !!err && "text-secondary "
                     }   text-xs`}
                 >
-                    {err}
-                </p>
+                    {err}</p><NextSteps message={err} />
                 </div>
             )}
 

@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import Button from "components/Button"
 import Input, { Select } from "components/Input"
 import Modal from "components/Modal"
@@ -79,8 +80,7 @@ const AddVital = ({ show, toggleClose }:any) => {
                             !!err && "text-secondary "
                             }   text-xs`}
                         >
-                            {err}
-                        </p>
+                            {err}</p><NextSteps message={err} />
                         </div>
                     )}
 

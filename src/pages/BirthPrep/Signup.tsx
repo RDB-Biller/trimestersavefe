@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import { useI18n } from "i18n";
 import LanguageSwitcher from "components/LanguageSwitcher";
 import { useEffect, useState } from "react";
@@ -88,7 +89,7 @@ const Signup = () => {
             )}
             {f.goal === "procedure" && (<>{field("Procedure", input("procedureName"))}<div className="grid grid-cols-2 gap-4">{field("Quoted cost (GHS)", input("procedureQuote", "number"))}{field("Planned date", input("procedureDate", "date"))}</div></>)}
             {f.goal === "other" && (<>{field("What for", input("otherLabel"))}{field("Amount (GHS)", input("otherAmount", "number"))}</>)}
-            {err && <p className="text-secondary text-sm mb-3">{err}</p>}
+            {err && <><p className="text-secondary text-sm mb-3">{err}</p><NextSteps message={err} /></>}
             <button className="bg-primary text-white rounded-2xl p-4 w-full font-semibold" disabled={busy} onClick={start}>{busy ? "Sending code…" : "Text me a code"}</button>
             <p className="text-xs text-light_grey_text mt-4">Financial preparedness, not medical advice. Your clinician decides how and when you deliver; the plan adapts. HNN Biller never holds your money.</p>
           </div>
@@ -98,7 +99,7 @@ const Signup = () => {
           <div className="bg-white rounded-2xl p-6 shadow-sm">
             <p className="text-sm mb-4">We texted a code to <b>{sentTo}</b>.{sandboxCode && <> (Test mode: the code is <b>{sandboxCode}</b>.)</>}</p>
             {field("Code", input("code", "text", "123456"))}
-            {err && <p className="text-secondary text-sm mb-3">{err}</p>}
+            {err && <><p className="text-secondary text-sm mb-3">{err}</p><NextSteps message={err} /></>}
             <button className="bg-primary text-white rounded-2xl p-4 w-full font-semibold" disabled={busy} onClick={finish}>{busy ? "Working out your plan…" : "Create my plan"}</button>
             <button className="text-primary text-sm mt-4" onClick={() => setStep(1)}>Back</button>
           </div>

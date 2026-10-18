@@ -1,3 +1,4 @@
+import NextSteps from 'components/NextSteps';
 import { useI18n } from "i18n";
 import { useEffect, useRef, useState } from "react";
 import { VaultFile, addVaultFile, deleteVaultFile, errorMessage, getVaultFile, getVaultFiles, updateVaultFile } from "services/patient/account";
@@ -53,7 +54,7 @@ const Vault = () => {
         <input ref={input} type="file" accept="application/pdf,image/png,image/jpeg,image/webp,image/gif,text/plain" disabled={busy} onChange={(e) => upload(e.target.files?.[0])} />
         {busy && <span className="text-sm text-light_grey_text">{t('status.loading')}</span>}
       </div>
-      {err && <p className="text-secondary text-sm mb-4">{err}</p>}
+      {err && <><p className="text-secondary text-sm mb-4">{err}</p><NextSteps message={err} /></>}
 
       {files.length === 0 && <p className="text-light_grey_text text-sm">No files yet.</p>}
       {files.map((f) => (
