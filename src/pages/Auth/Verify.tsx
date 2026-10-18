@@ -3,7 +3,7 @@ import Button from "components/Button"
 import { useEffect, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import authentication from "services/patient/authentication"
-import { getUser, clearUser } from "helpers/utilities"
+import { getUser, setUser, clearUser } from "helpers/utilities"
 
 const Verify = () => {
 
@@ -12,6 +12,9 @@ const Verify = () => {
     const [ info, setInfo ] = useState('')
     
     const navigate = useNavigate()
+    const [ changing, setChanging ] = useState(false)
+    const [ newPhone, setNewPhone ] = useState('')
+    const [ pw, setPw ] = useState('')
     // An account opened with an email address confirms it with an emailed code (the stored value is the email).
     const isEmail = getUser().includes('@')
 
@@ -56,6 +59,24 @@ const Verify = () => {
             setErr(err?.response?.data?.error || 'Could not send the code')
             setLoading(false)
         })
+    }
+
+    // Wrong number? Replace it (while unconfirmed), then text the new one.
+    const changeNumber = () => {
+        setErr(''); setInfo('')
+        const t = newPhone.trim()
+        const p = t.charAt(0) === '0' ? '+233' + t.substring(1) : t
+        if (!/^\+\d{8,15}$/.test(p)) { setErr('Enter a valid mobile number, with the country code if it is not Ghana.'); return }
+        if (!pw) { setErr('Enter your password to confirm it is your account.'); return }
+        setLoading(true)
+        authentication.ChangePhone({ identifier: getUser(), password: pw, newPhone: p })
+        .then(() => { setUser(p); return authentication.ResendCode({ phone: p }) })
+        .then((res: any) => {
+            const body = res.data?.result || res.data
+            setInfo(body?.codeSandbox ? `Number changed. Code sent (test mode: ${body.codeSandbox}).` : `Number changed. A code was sent to ${body?.to || p}.`)
+            setChanging(false); setNewPhone(''); setPw('')
+        }).catch(e => setErr(e?.response?.data?.error || 'Could not change the number. Check your password and try again.'))
+        .finally(() => setLoading(false))
     }
 
     const [otp, setOtp] = useState(new Array(6).fill(""));
@@ -136,6 +157,16 @@ const Verify = () => {
             </form>
 
             <p className="cursor-pointer text-secondary pt-8" onClick={resend} >Resend code</p>
+            {!isEmail && (changing ? (
+              <div className="text-left max-w-[450px] mx-auto pt-6">
+                <label className="text-lg">Your correct mobile number</label>
+                <input className="w-full border rounded-lg p-3 mt-2" inputMode="tel" autoComplete="tel" placeholder="024 123 4567" value={newPhone} onChange={e => setNewPhone(e.target.value)} />
+                <label className="text-lg block mt-4">Your password</label>
+                <input className="w-full border rounded-lg p-3 mt-2" type="password" autoComplete="current-password" value={pw} onChange={e => setPw(e.target.value)} />
+                <Button title="Use this number and text me a code" type="button" loading={loading} onClick={changeNumber} />
+                <p className="cursor-pointer text-secondary pt-4 text-center" onClick={() => { setChanging(false); setErr('') }}>Keep the current number</p>
+              </div>
+            ) : <p className="pt-4">Wrong number? <span className="cursor-pointer text-secondary underline" onClick={() => { setErr(''); setInfo(''); setChanging(true) }}>Change it</span></p>)}
         </div>
     )
 }

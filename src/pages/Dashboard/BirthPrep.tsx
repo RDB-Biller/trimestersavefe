@@ -45,6 +45,7 @@ const BirthPrep = () => {
             ? <button className="bg-primary text-white rounded-xl p-3 px-5" disabled={busy} onClick={start}>Text me a code</button>
             : <button className="bg-primary text-white rounded-xl p-3 px-5" disabled={busy} onClick={fetchMine}>Show my plans</button>}
         </div>
+        {stage === "code" && <p className="text-sm mt-2">Wrong number? <button className="text-primary underline" onClick={() => { setStage("idle"); setCode(""); setSandboxCode(""); setErr(""); }}>Change it</button></p>}
         {sandboxCode && <p className="text-xs text-light_grey_text mt-2">Test mode: the code is {sandboxCode}.</p>}
         {err && <><p className="text-secondary text-sm mt-2">{err}</p><NextSteps message={err} /></>}
       </div>

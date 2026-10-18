@@ -78,6 +78,11 @@ class Authentication {
     });
   }
 
+  /** Wrong number at sign-up? Replace it (only while it is unconfirmed); the password proves it is their account. */
+  ChangePhone(data: { identifier: string; password: string; newPhone: string }) {
+    return axios.patch(URL.changePhoneByLogin, data, { timeout: 100000 });
+  }
+
   ResendCode(data: { phone: string }) {
     return startVerification(data.phone);
   }

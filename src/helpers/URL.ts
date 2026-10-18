@@ -45,6 +45,7 @@ const URL = {
     loginPatient: baseURL + 'patient/login', 
     verifyEmail: baseURL + 'patient/verify_email', 
     verifyPhone: baseURL + 'patient/verify_phone', 
+    changePhoneByLogin: baseURL + 'patient/change_phone_by_login',
     updatePatient: baseURL + 'patient/update', 
     changePassword: baseURL + 'patient/change_password', 
     forgotPassword: baseURL + 'patient/forgot_password', 

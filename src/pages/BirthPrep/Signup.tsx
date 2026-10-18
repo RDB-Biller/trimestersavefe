@@ -101,7 +101,7 @@ const Signup = () => {
             {field("Code", input("code", "text", "123456"))}
             {err && <><p className="text-secondary text-sm mb-3">{err}</p><NextSteps message={err} /></>}
             <button className="bg-primary text-white rounded-2xl p-4 w-full font-semibold" disabled={busy} onClick={finish}>{busy ? "Working out your plan…" : "Create my plan"}</button>
-            <button className="text-primary text-sm mt-4" onClick={() => setStep(1)}>Back</button>
+            <button className="text-primary text-sm mt-4" onClick={() => setStep(1)}>Wrong number? Change it</button>
             <button className="text-primary text-sm mt-4 ml-6 underline" disabled={busy} onClick={start}>Did not get a code? Send it again</button>
           </div>
         )}
