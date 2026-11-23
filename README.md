@@ -26,3 +26,7 @@ For any info contact us at info@trimestersave.com
 Afriyie is [MIT licensed](https://github.com/Trimester-Save-Ltd/tms-afriyie-backend/blob/main/LICENSE) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
+
+## Dry Run (iteration)
+
+The app is ready to be opened for iteration in Dry Run. `public/dryrun/dryrun.js` is the Dry Run page script: on a normal visit it does nothing, and inside the Dry Run Workroom it shows iterations as overlays on the real `/birthprep` page. To make the site Dry Run signed, add the site in Dry Run, copy its token from the install panel, and set `DRYRUN_TOKEN` on the service (optionally `DRYRUN_ORIGIN`, default `https://dryrun.hnnworld.com`). The next build writes `/.well-known/dryrun.json` through `scripts/dryrun-manifest.js`; then press Check the site in Dry Run. Without the token nothing changes.
